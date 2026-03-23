@@ -16,13 +16,23 @@ RUN pip install --no-cache-dir \
     openai-agents \
     openai
 
-# ─── Bake in exercise source code ─────────────────────────────────────────────
-# exercises/ at repo root must contain:
-#   01-scratch-agent/practice/ and 01-scratch-agent/solution/
-#   02-sdk-agent/practice/     and 02-sdk-agent/solution/
-#   03-hitl-agent/practice/    and 03-hitl-agent/solution/
-#   04-multi-agent/practice/   and 04-multi-agent/solution/
-COPY exercises/ /opt/exercises/
+# ─── Exercise source code ─────────────────────────────────────────────────────
+# Exercises are added here as they are built. The COPY is gated on the
+# existence of actual files — empty directories are not enough for Docker COPY.
+# Scaffold the directory structure so docker cp in setup-workshop-host works
+# even before exercise files exist.
+RUN mkdir -p \
+    /opt/exercises/01-scratch-agent/practice \
+    /opt/exercises/01-scratch-agent/solution \
+    /opt/exercises/02-sdk-agent/practice \
+    /opt/exercises/02-sdk-agent/solution \
+    /opt/exercises/03-hitl-agent/practice \
+    /opt/exercises/03-hitl-agent/solution \
+    /opt/exercises/04-multi-agent/practice \
+    /opt/exercises/04-multi-agent/solution
+
+# Uncomment and add real files as exercises are built:
+# COPY exercises/ /opt/exercises/
 
 # ─── Shell conveniences ───────────────────────────────────────────────────────
 RUN echo 'alias rw="python run_worker.py"' >> /root/.bashrc \
