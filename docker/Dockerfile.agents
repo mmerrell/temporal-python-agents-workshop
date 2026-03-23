@@ -1,0 +1,33 @@
+# temporal-python-agents-sandbox
+# Extends temporal-python-sandbox with AI agent framework dependencies.
+#
+# Contains everything in Dockerfile.base plus:
+#   - openai-agents (OpenAI Agents SDK)
+#   - openai
+#   - All four exercise directories baked into /opt/exercises/
+#
+# OPENAI_API_KEY is injected at runtime by the Instruqt environment config —
+# it is never baked into this image.
+
+FROM ghcr.io/mmerrell/temporal-python-sandbox:latest
+
+# ─── Agent framework dependencies ─────────────────────────────────────────────
+RUN pip install --no-cache-dir \
+    openai-agents \
+    openai
+
+# ─── Bake in exercise source code ─────────────────────────────────────────────
+# exercises/ at repo root must contain:
+#   01-scratch-agent/practice/ and 01-scratch-agent/solution/
+#   02-sdk-agent/practice/     and 02-sdk-agent/solution/
+#   03-hitl-agent/practice/    and 03-hitl-agent/solution/
+#   04-multi-agent/practice/   and 04-multi-agent/solution/
+COPY exercises/ /opt/exercises/
+
+# ─── Shell conveniences ───────────────────────────────────────────────────────
+RUN echo 'alias rw="python run_worker.py"' >> /root/.bashrc \
+    && echo 'alias rs="python run_starter.py"' >> /root/.bashrc
+
+WORKDIR /workspace
+
+CMD ["/bin/bash"]

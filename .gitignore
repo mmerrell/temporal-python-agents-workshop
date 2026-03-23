@@ -1,0 +1,36 @@
+## macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+## Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+## Environment / secrets
+.env
+.env.local
+*.env
+
+## VS Code (local settings only — shared settings go in exercises/)
+.vscode/
+
+## IntelliJ (just in case)
+.idea/
+*.iml
+
+## Local Docker build artifacts
+*.tar
+
+## Instruqt — track.yml and assignment.md get id: fields populated after first push.
+## Don't ignore them, but don't be surprised when they change after instruqt track pull.

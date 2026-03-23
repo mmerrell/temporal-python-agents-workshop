@@ -1,0 +1,54 @@
+# temporal-python-sandbox
+# Base image for Temporal Python SDK labs (Instruqt).
+#
+# Contains:
+#   - Python 3.11
+#   - Temporal CLI (pinned)
+#   - temporalio SDK
+#   - Common dev tools (httpx, pydantic, python-dotenv)
+#
+# Does NOT contain agent-framework packages (openai-agents, openai, etc.).
+# Those live in Dockerfile.agents, which extends this image.
+#
+# Temporal server is NOT run inside this image — it runs as a systemd
+# service on the Instruqt VM host (instruqt/docker-28-3) via the track
+# setup script. This image is for the learner's exercise sandbox only.
+
+FROM python:3.11-slim-bookworm
+
+# ─── System packages ──────────────────────────────────────────────────────────
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    wget \
+    git \
+    vim \
+    nano \
+    less \
+    unzip \
+    ca-certificates \
+    bash-completion \
+    && rm -rf /var/lib/apt/lists/*
+
+# ─── Temporal CLI ─────────────────────────────────────────────────────────────
+ARG TEMPORAL_CLI_VERSION=1.3.0
+RUN curl -sSL \
+    "https://github.com/temporalio/cli/releases/download/v${TEMPORAL_CLI_VERSION}/temporal_cli_${TEMPORAL_CLI_VERSION}_linux_amd64.tar.gz" \
+    | tar -xz -C /usr/local/bin temporal \
+    && chmod +x /usr/local/bin/temporal
+
+# ─── Python base dependencies ─────────────────────────────────────────────────
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir \
+        temporalio \
+        httpx \
+        pydantic \
+        python-dotenv \
+        rich
+
+# ─── Shell environment ────────────────────────────────────────────────────────
+RUN echo 'export TEMPORAL_ADDRESS="${TEMPORAL_ADDRESS:-127.0.0.1:7233}"' >> /root/.bashrc \
+    && echo 'alias tl="temporal workflow list"' >> /root/.bashrc
+
+WORKDIR /workspace
+
+CMD ["/bin/bash"]

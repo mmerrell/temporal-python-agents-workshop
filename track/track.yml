@@ -1,0 +1,41 @@
+slug: temporal-python-agents-hands-on
+id: ""
+title: Building Durable AI Agents with Temporal
+teaser: Build production-ready AI agents using Python and Temporal — fault-tolerant, observable, and ready for the real world.
+description: |-
+  A hands-on workshop for building durable AI agents with Temporal and the OpenAI Agents SDK.
+
+  You'll start from first principles — implementing an agentic loop from scratch inside a Temporal workflow — then add capabilities progressively: integrating the OpenAI Agents SDK, enabling human-in-the-loop interaction, and orchestrating multiple specialized agents.
+
+  **What you'll build:**
+  - A durable agentic loop with tool calling, backed by Temporal
+  - The same agent rebuilt with the OpenAI Agents SDK — with Temporal underneath
+  - Human-in-the-loop interaction via Temporal signals
+  - A multi-agent orchestration system
+
+  **Prerequisites:** Basic Python familiarity. No prior Temporal experience required.
+icon: https://storage.googleapis.com/instruqt-frontend/img/tracks/default.png
+tags:
+- temporal
+- ai-agents
+- python
+- openai
+owner: temporal
+developers:
+- marcus.merrell@temporal.io
+idle_timeout: 1800
+timelimit: 14400
+lab_config:
+  sidebar_enabled: true
+  feedback_recap_enabled: true
+  feedback_tab_enabled: true
+  loadingMessages: true
+  hideStopButton: false
+  default_layout: AssignmentLeft
+  default_layout_sidebar_size: 35
+challenges:
+- slug: environment-setup
+  id: ""
+  type: challenge
+  title: Environment Setup
+  teaser: Verify your sandbox and confirm Temporal is running before writing any agent code.
