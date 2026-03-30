@@ -21,15 +21,15 @@ RUN pip install --no-cache-dir \
 # ─── Exercise source code ─────────────────────────────────────────────────────
 # Add each exercise directory as it is built.
 # Directory names match the section numbering in the workshop outline.
-COPY exercises/03-building-from-scratch /opt/exercises/03-building-from-scratch
-COPY exercises/04-agent-sdks /opt/exercises/04-agent-sdks
+COPY exercises/02-building-from-scratch /opt/exercises/02-building-from-scratch
+COPY exercises/03-agent-sdks /opt/exercises/03-agent-sdks
 
 # Scaffold future exercise directories so docker cp works before they have files.
 RUN mkdir -p \
-    /opt/exercises/05-hitl/practice \
-    /opt/exercises/05-hitl/solution \
-    /opt/exercises/06-multi-agent/practice \
-    /opt/exercises/06-multi-agent/solution
+    /opt/exercises/04-hitl/practice \
+    /opt/exercises/04-hitl/solution \
+    /opt/exercises/05-multi-agent/practice \
+    /opt/exercises/05-multi-agent/solution
 
 # ─── Shell conveniences ───────────────────────────────────────────────────────
 RUN echo 'alias rw="python run_worker.py"' >> /root/.bashrc \

@@ -1,8 +1,0 @@
-#!/bin/bash
-set -euo pipefail
-
-echo "Checking Temporal server..."
-temporal operator cluster health --address 127.0.0.1:7233 2>/dev/null | grep -q SERVING \
-    || { fail-message "Temporal server not responding. Check: systemctl status temporal-server"; exit 1; }
-
-echo "All checks passed!"
