@@ -4,6 +4,7 @@
 # Contains everything in Dockerfile.base plus:
 #   - openai-agents (OpenAI Agents SDK)
 #   - openai
+#   - temporalio[openai-agents] (Temporal + OpenAI Agents integration)
 #   - Exercise directories baked into /opt/exercises/
 #
 # OPENAI_API_KEY is injected at runtime by the Instruqt environment config —
@@ -14,17 +15,17 @@ FROM ghcr.io/mmerrell/temporal-python-sandbox:latest
 # ─── Agent framework dependencies ─────────────────────────────────────────────
 RUN pip install --no-cache-dir \
     openai-agents \
-    openai
+    openai \
+    "temporalio[openai-agents]"
 
 # ─── Exercise source code ─────────────────────────────────────────────────────
-# Add new exercise directories here as they are built.
+# Add each exercise directory as it is built.
 # Directory names match the section numbering in the workshop outline.
 COPY exercises/03-building-from-scratch /opt/exercises/03-building-from-scratch
+COPY exercises/04-agent-sdks /opt/exercises/04-agent-sdks
 
 # Scaffold future exercise directories so docker cp works before they have files.
 RUN mkdir -p \
-    /opt/exercises/04-agent-sdks/practice \
-    /opt/exercises/04-agent-sdks/solution \
     /opt/exercises/05-hitl/practice \
     /opt/exercises/05-hitl/solution \
     /opt/exercises/06-multi-agent/practice \
