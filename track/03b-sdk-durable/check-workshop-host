@@ -1,0 +1,20 @@
+#!/bin/bash
+set -euo pipefail
+
+echo "Checking for a completed WeatherAgentWorkflow (SDK durable)..."
+
+COMPLETED=$(temporal workflow list \
+    --namespace default \
+    --query 'WorkflowType="WeatherAgentWorkflow" AND ExecutionStatus="Completed"' \
+    2>/dev/null | grep -c "WeatherAgentWorkflow" || true)
+
+if [ "$COMPLETED" -lt 1 ]; then
+    fail-message "No completed WeatherAgentWorkflow found. Run the durable agent with: python run_starter.py"
+    exit 1
+fi
+
+# Verify workflow.py uses the Temporal OpenAI Agents integration
+grep -q "activity_as_tool" /workspace/exercise/workflow.py \
+    || { fail-message "workflow.py doesn't use activity_as_tool(). Make sure you're running the durable version."; exit 1; }
+
+echo "Check passed!"

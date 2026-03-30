@@ -1,0 +1,36 @@
+#!/bin/bash
+set -euo pipefail
+
+echo "Checking workflow.py for required Temporal patterns..."
+
+EXERCISE=/workspace/exercise/workflow.py
+
+# Check @workflow.defn decorator
+grep -q "@workflow.defn" "$EXERCISE" \
+    || { fail-message "Missing @workflow.defn decorator on the WeatherAgentWorkflow class."; exit 1; }
+
+# Check @workflow.run decorator
+grep -q "@workflow.run" "$EXERCISE" \
+    || { fail-message "Missing @workflow.run decorator on the run() method."; exit 1; }
+
+# Check workflow.execute_activity is called
+grep -q "workflow.execute_activity" "$EXERCISE" \
+    || { fail-message "No workflow.execute_activity() calls found. Wire up the activities."; exit 1; }
+
+# Check that response = None stub was replaced
+grep -q "response = None" "$EXERCISE" \
+    && { fail-message "Still have 'response = None' — replace it with a workflow.execute_activity() call for call_llm."; exit 1; }
+
+echo "Checking for a completed WeatherAgentWorkflow..."
+
+COMPLETED=$(temporal workflow list \
+    --namespace default \
+    --query 'WorkflowType="WeatherAgentWorkflow" AND ExecutionStatus="Completed"' \
+    2>/dev/null | grep -c "WeatherAgentWorkflow" || true)
+
+if [ "$COMPLETED" -lt 1 ]; then
+    fail-message "No completed WeatherAgentWorkflow found. Run the agent and check the Temporal UI."
+    exit 1
+fi
+
+echo "All checks passed!"
