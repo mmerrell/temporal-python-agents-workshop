@@ -1,9 +1,10 @@
 ---
 slug: environment-setup
-id: ""
+id: xvrlngdahtej
 type: challenge
 title: Environment Setup
-teaser: Verify your sandbox and confirm Temporal is running before writing any agent code.
+teaser: Verify your sandbox and confirm Temporal is running before writing any agent
+  code.
 notes:
 - type: text
   contents: |-
@@ -18,21 +19,25 @@ notes:
 
     Click **Start** when you're ready.
 tabs:
-- title: Terminal
+- id: tc6aeeuevhsd
+  title: Terminal
   type: terminal
   hostname: workshop-host
-- title: VS Code
+- id: aizygwacbrti
+  title: VS Code
   type: service
   hostname: workshop-host
   path: ?folder=/workspace/exercise
   port: 8443
-- title: Temporal UI
+- id: emsp5sl51fxi
+  title: Temporal UI
   type: service
   hostname: workshop-host
   path: /
   port: 8080
 difficulty: basic
 timelimit: 600
+enhanced_loading: null
 ---
 
 ## Verify Your Environment

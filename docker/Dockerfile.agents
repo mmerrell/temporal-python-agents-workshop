@@ -4,7 +4,7 @@
 # Contains everything in Dockerfile.base plus:
 #   - openai-agents (OpenAI Agents SDK)
 #   - openai
-#   - All four exercise directories baked into /opt/exercises/
+#   - Exercise directories baked into /opt/exercises/
 #
 # OPENAI_API_KEY is injected at runtime by the Instruqt environment config —
 # it is never baked into this image.
@@ -17,22 +17,18 @@ RUN pip install --no-cache-dir \
     openai
 
 # ─── Exercise source code ─────────────────────────────────────────────────────
-# Exercises are added here as they are built. The COPY is gated on the
-# existence of actual files — empty directories are not enough for Docker COPY.
-# Scaffold the directory structure so docker cp in setup-workshop-host works
-# even before exercise files exist.
-RUN mkdir -p \
-    /opt/exercises/01-scratch-agent/practice \
-    /opt/exercises/01-scratch-agent/solution \
-    /opt/exercises/02-sdk-agent/practice \
-    /opt/exercises/02-sdk-agent/solution \
-    /opt/exercises/03-hitl-agent/practice \
-    /opt/exercises/03-hitl-agent/solution \
-    /opt/exercises/04-multi-agent/practice \
-    /opt/exercises/04-multi-agent/solution
+# Add new exercise directories here as they are built.
+# Directory names match the section numbering in the workshop outline.
+COPY exercises/03-building-from-scratch /opt/exercises/03-building-from-scratch
 
-# Uncomment and add real files as exercises are built:
-# COPY exercises/ /opt/exercises/
+# Scaffold future exercise directories so docker cp works before they have files.
+RUN mkdir -p \
+    /opt/exercises/04-agent-sdks/practice \
+    /opt/exercises/04-agent-sdks/solution \
+    /opt/exercises/05-hitl/practice \
+    /opt/exercises/05-hitl/solution \
+    /opt/exercises/06-multi-agent/practice \
+    /opt/exercises/06-multi-agent/solution
 
 # ─── Shell conveniences ───────────────────────────────────────────────────────
 RUN echo 'alias rw="python run_worker.py"' >> /root/.bashrc \

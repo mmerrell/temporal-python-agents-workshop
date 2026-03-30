@@ -1,0 +1,7 @@
+#!/bin/bash
+set -euxo pipefail
+
+# Copy exercise 03 practice code into the active workspace
+cp -r /workspace/exercises/03-building-from-scratch/practice/. /workspace/exercise/
+
+echo "03a setup complete."

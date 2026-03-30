@@ -1,7 +1,8 @@
 slug: temporal-python-agents-hands-on
-id: ""
+id: qwz77tqvznoi
 title: Building Durable AI Agents with Temporal
-teaser: Build production-ready AI agents using Python and Temporal — fault-tolerant, observable, and ready for the real world.
+teaser: Build production-ready AI agents using Python and Temporal — fault-tolerant,
+  observable, and ready for the real world.
 description: |-
   A hands-on workshop for building durable AI agents with Temporal and the OpenAI Agents SDK.
 
@@ -16,10 +17,10 @@ description: |-
   **Prerequisites:** Basic Python familiarity. No prior Temporal experience required.
 icon: https://storage.googleapis.com/instruqt-frontend/img/tracks/default.png
 tags:
-- temporal
+- openai
 - ai-agents
 - python
-- openai
+- temporal
 owner: temporal
 developers:
 - marcus.merrell@temporal.io
@@ -33,9 +34,5 @@ lab_config:
   hideStopButton: false
   default_layout: AssignmentLeft
   default_layout_sidebar_size: 35
-challenges:
-- slug: environment-setup
-  id: ""
-  type: challenge
-  title: Environment Setup
-  teaser: Verify your sandbox and confirm Temporal is running before writing any agent code.
+checksum: "3798507499225727759"
+enhanced_loading: false

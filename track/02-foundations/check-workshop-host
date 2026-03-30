@@ -1,0 +1,3 @@
+#!/bin/bash
+# Foundations is a facilitated discussion — check always passes.
+echo "Foundations complete."
