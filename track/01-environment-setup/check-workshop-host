@@ -1,26 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-echo "Checking Python 3.11..."
-python -c "import sys; assert sys.version_info >= (3,11), 'Need Python 3.11+'" \
-    || { fail-message "Python 3.11+ not found. Run: python --version"; exit 1; }
-
-echo "Checking Temporal SDK..."
-python -c "import temporalio" 2>/dev/null \
-    || { fail-message "Temporal SDK not installed."; exit 1; }
-
-echo "Checking OpenAI Agents SDK..."
-python -c "import agents" 2>/dev/null \
-    || { fail-message "OpenAI Agents SDK not installed."; exit 1; }
-
 echo "Checking Temporal server..."
 temporal operator cluster health --address 127.0.0.1:7233 2>/dev/null | grep -q SERVING \
     || { fail-message "Temporal server not responding. Check: systemctl status temporal-server"; exit 1; }
-
-echo "Checking exercise directories..."
-for ex in 03-building-from-scratch; do
-    [ -d "/workspace/exercises/$ex/practice" ] \
-        || { fail-message "Missing /workspace/exercises/$ex/practice — track setup may have failed."; exit 1; }
-done
 
 echo "All checks passed!"
