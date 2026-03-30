@@ -1,30 +1,31 @@
 """
-Section 2: Building a Durable Agent from Scratch
-practice/run_worker.py
+Start a worker that listens for WeatherAgentWorkflow tasks.
 
-Starts a Temporal worker that hosts the WeatherAgentWorkflow
-and its activities. Leave this running in Terminal 1.
+Usage:
+    python run_worker.py
 """
 
 import asyncio
+
 from temporalio.client import Client
 from temporalio.worker import Worker
 
+from activities import call_llm, get_coordinates, get_distance_km, get_weather_alerts
 from workflow import WeatherAgentWorkflow
-from activities import call_llm, get_weather_alerts
 
 
 async def main():
-    client = await Client.connect("localhost:7233")
-    async with Worker(
+    client = await Client.connect("127.0.0.1:7233")
+
+    worker = Worker(
         client,
         task_queue="weather-agent",
         workflows=[WeatherAgentWorkflow],
-        activities=[call_llm, get_weather_alerts],
-    ):
-        print("Worker started. Listening on task queue: weather-agent")
-        print("Press Ctrl+C to stop.\n")
-        await asyncio.Future()  # run forever
+        activities=[call_llm, get_weather_alerts, get_coordinates, get_distance_km],
+    )
+
+    print("Worker started. Ctrl+C to stop.")
+    await worker.run()
 
 
 if __name__ == "__main__":
