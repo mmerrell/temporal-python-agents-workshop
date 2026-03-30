@@ -72,13 +72,13 @@ Click the **Temporal UI** tab. You should see the Temporal Web UI showing the `d
 ls /workspace/exercises/
 ```
 
-You should see four directories:
+You should see:
 
 ```
-01-scratch-agent/   02-sdk-agent/   03-hitl-agent/   04-multi-agent/
+03-building-from-scratch/
 ```
 
-Each has a `practice/` (you write the code) and `solution/` (reference implementation).
+Each exercise directory has a `practice/` and a `solution/` subdirectory.
 
 ***
 

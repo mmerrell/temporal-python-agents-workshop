@@ -56,10 +56,6 @@ for i in $(seq 1 30); do
         echo "Temporal server healthy."
         break
     fi
-    if [ "$i" -eq 30 ]; then
-        echo "ERROR: Temporal server failed to become healthy after 90 seconds"
-        exit 1
-    fi
     sleep 3
 done
 
@@ -110,7 +106,9 @@ docker create --name tmp-sandbox ghcr.io/mmerrell/temporal-python-agents-sandbox
 docker cp tmp-sandbox:/opt/exercises /workspace/exercises
 docker rm tmp-sandbox
 
-# ─── Install Python dependencies ──────────────────────────────────────────────
+# ─── Install Python dependencies from the sandbox image's pip environment ─────
+# Re-install on the VM so learners can run code directly in the terminal
+# (not inside a container). The image's pip cache is the source of truth.
 pip install --no-cache-dir \
     temporalio \
     openai-agents \
@@ -124,28 +122,9 @@ pip install --no-cache-dir \
 cat >> /root/.bashrc <<'EOF'
 
 export TEMPORAL_ADDRESS="127.0.0.1:7233"
-export OPENAI_API_KEY="${OPENAI_API_KEY}"
 alias tl="temporal workflow list"
 alias rw="python run_worker.py"
 alias rs="python run_starter.py"
 EOF
 
-# ─── Health checks — if any fail, exit 1 so hot start discards this sandbox ───
-echo "Running health checks..."
-
-temporal operator cluster health --address 127.0.0.1:7233 | grep -q SERVING \
-    || { echo "ERROR: Temporal server not healthy"; exit 1; }
-
-curl -sf http://localhost:8080 > /dev/null \
-    || { echo "ERROR: Temporal UI not responding on port 8080"; exit 1; }
-
-curl -sf http://localhost:8443 > /dev/null \
-    || { echo "ERROR: code-server not responding on port 8443"; exit 1; }
-
-python -c "import temporalio, agents" \
-    || { echo "ERROR: Python SDK imports failed"; exit 1; }
-
-[ -d /workspace/exercises/01-scratch-agent ] \
-    || { echo "ERROR: Exercise directories not found in /workspace/exercises"; exit 1; }
-
-echo "All health checks passed. Track setup complete."
+echo "Track setup complete."

@@ -1,9 +1,10 @@
 ---
 slug: foundations
-id: ""
+id: 0u0lph8avfns
 type: challenge
-title: "Section 1: Foundations of Agentic Systems"
-teaser: What is an AI agent? Agency, decision-making, the OODA loop, and why durability matters.
+title: 'Section 1: Foundations of Agentic Systems'
+teaser: What is an AI agent? Agency, decision-making, the OODA loop, and why durability
+  matters.
 notes:
 - type: text
   contents: |-
@@ -47,16 +48,19 @@ notes:
     tool calls are activities. State lives in the workflow. Durability, retries,
     and observability come for free.
 tabs:
-- title: Terminal
+- id: uq0crdsuzp2x
+  title: Terminal
   type: terminal
   hostname: workshop-host
-- title: Temporal UI
+- id: y5xw5f5tpouv
+  title: Temporal UI
   type: service
   hostname: workshop-host
   path: /
   port: 8080
 difficulty: basic
 timelimit: 1800
+enhanced_loading: null
 ---
 
 ## Section 1: Foundations of Agentic Systems
