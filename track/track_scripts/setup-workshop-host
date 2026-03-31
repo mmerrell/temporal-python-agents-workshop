@@ -63,26 +63,13 @@ for i in $(seq 1 30); do
     sleep 3
 done
 
-# ─── code-server (VS Code in browser) ─────────────────────────────────────────
-curl -fsSL https://code-server.dev/install.sh | sh
-
-code-server --install-extension ms-python.python
-
-mkdir -p /root/.local/share/code-server/User
-cat > /root/.local/share/code-server/User/settings.json <<'EOF'
-{
-    "workbench.colorTheme": "Default Dark+",
-    "workbench.startupEditor": "none",
-    "security.workspace.trust.enabled": false,
-    "editor.fontSize": 14,
-    "editor.tabSize": 4,
-    "python.defaultInterpreterPath": "/usr/bin/python3.11",
-    "workbench.activityBar.visible": false,
-    "workbench.secondarySideBar.visible": false,
-    "workbench.statusBar.visible": true,
-    "editor.suggestOnTriggerCharacters": true
-}
-EOF
+# ─── code-server (pre-installed in Docker image, just configure and start) ────
+# Pull code-server binary out of the sandbox image
+docker pull ghcr.io/mmerrell/temporal-python-sandbox:latest
+docker create --name tmp-base ghcr.io/mmerrell/temporal-python-sandbox:latest
+docker cp tmp-base:/usr/bin/code-server /usr/bin/code-server
+docker cp tmp-base:/root/.local/share/code-server /root/.local/share/code-server
+docker rm tmp-base
 
 cat > /etc/systemd/system/code-server.service <<'EOF'
 [Unit]
@@ -103,7 +90,7 @@ EOF
 systemctl enable code-server
 systemctl start code-server
 
-# ─── Pull exercise code from sandbox image ────────────────────────────────────
+# ─── Pull exercise code from agents sandbox image ─────────────────────────────
 docker pull ghcr.io/mmerrell/temporal-python-agents-sandbox:latest
 docker create --name tmp-sandbox ghcr.io/mmerrell/temporal-python-agents-sandbox:latest
 docker cp tmp-sandbox:/opt/exercises /workspace/exercises

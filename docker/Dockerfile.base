@@ -6,6 +6,7 @@
 #   - Temporal CLI (pinned)
 #   - temporalio SDK
 #   - Common dev tools (httpx, pydantic, python-dotenv)
+#   - code-server (VS Code in browser) with Python extension pre-installed
 #
 # Does NOT contain agent-framework packages (openai-agents, openai, etc.).
 # Those live in Dockerfile.agents, which extends this image.
@@ -27,6 +28,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     ca-certificates \
     bash-completion \
+    fontconfig \
     && rm -rf /var/lib/apt/lists/*
 
 # ─── Temporal CLI ─────────────────────────────────────────────────────────────
@@ -44,6 +46,18 @@ RUN pip install --no-cache-dir --upgrade pip \
         pydantic \
         python-dotenv \
         rich
+
+# ─── code-server (VS Code in browser) ─────────────────────────────────────────
+# Baked into the image so sandbox provisioning doesn't need to download it.
+RUN curl -fsSL https://code-server.dev/install.sh | sh
+
+# Pre-install the Python extension so it's available immediately on first load.
+RUN code-server --install-extension ms-python.python
+
+# Default VS Code settings — activity bar and secondary sidebar hidden for
+# a cleaner learner experience.
+RUN mkdir -p /root/.local/share/code-server/User
+COPY docker/code-server-settings.json /root/.local/share/code-server/User/settings.json
 
 # ─── Shell environment ────────────────────────────────────────────────────────
 RUN echo 'export TEMPORAL_ADDRESS="${TEMPORAL_ADDRESS:-127.0.0.1:7233}"' >> /root/.bashrc \

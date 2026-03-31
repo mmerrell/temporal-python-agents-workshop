@@ -1,0 +1,12 @@
+{
+    "workbench.colorTheme": "Default Dark+",
+    "workbench.startupEditor": "none",
+    "security.workspace.trust.enabled": false,
+    "editor.fontSize": 14,
+    "editor.tabSize": 4,
+    "python.defaultInterpreterPath": "/usr/local/bin/python3.11",
+    "workbench.activityBar.visible": false,
+    "workbench.secondarySideBar.visible": false,
+    "workbench.statusBar.visible": true,
+    "editor.suggestOnTriggerCharacters": true
+}
