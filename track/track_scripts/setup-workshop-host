@@ -63,12 +63,11 @@ for i in $(seq 1 30); do
     sleep 3
 done
 
-# ─── Pull agents image (used for code-server, pip cache, and exercises) ───────
+# ─── Pull agents image (used for code-server, extension data, and exercises) ──
 docker pull ghcr.io/mmerrell/temporal-python-agents-sandbox:latest
 docker create --name tmp-sandbox ghcr.io/mmerrell/temporal-python-agents-sandbox:latest
 
 # ─── code-server ──────────────────────────────────────────────────────────────
-# Install the native binary (fast), copy extension data from image (no download)
 curl -fsSL https://code-server.dev/install.sh | sh
 
 mkdir -p /root/.local/share/code-server
@@ -124,15 +123,10 @@ done
 
 # ─── Exercise code ────────────────────────────────────────────────────────────
 docker cp tmp-sandbox:/opt/exercises /workspace/exercises
-
-# ─── Python dependencies (install from cached wheels — no network downloads) ──
-docker cp tmp-sandbox:/opt/pip-cache /opt/pip-cache
 docker rm tmp-sandbox
 
-pip install \
-    --no-index \
-    --find-links /opt/pip-cache \
-    --ignore-installed \
+# ─── Python dependencies ──────────────────────────────────────────────────────
+pip install --no-cache-dir --ignore-installed \
     temporalio \
     "temporalio[openai-agents]" \
     openai-agents \
@@ -142,11 +136,13 @@ pip install \
     python-dotenv \
     rich
 
-# ─── Shell environment ─────────────────────────────────────────────────────────
-cat >> /root/.bashrc <<'EOF'
+# ─── Environment variables ─────────────────────────────────────────────────────
+echo "TEMPORAL_ADDRESS=127.0.0.1:7233" >> /etc/environment
+echo "OPENAI_API_KEY=${OPENAI_API_KEY}" >> /etc/environment
 
-export TEMPORAL_ADDRESS="127.0.0.1:7233"
-export OPENAI_API_KEY="${OPENAI_API_KEY}"
+echo "export TEMPORAL_ADDRESS=127.0.0.1:7233" >> /root/.bashrc
+echo "export OPENAI_API_KEY=${OPENAI_API_KEY}" >> /root/.bashrc
+cat >> /root/.bashrc <<'EOF'
 alias tl="temporal workflow list"
 alias rw="python run_worker.py"
 alias rs="python run_starter.py"

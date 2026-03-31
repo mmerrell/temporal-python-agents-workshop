@@ -6,7 +6,6 @@
 #   - openai
 #   - temporalio[openai-agents] (Temporal + OpenAI Agents integration)
 #   - Exercise directories baked into /opt/exercises/
-#   - pip cache at /opt/pip-cache for fast VM provisioning
 #
 # OPENAI_API_KEY is injected at runtime by the Instruqt environment config —
 # it is never baked into this image.
@@ -14,17 +13,10 @@
 FROM ghcr.io/mmerrell/temporal-python-sandbox:latest
 
 # ─── Agent framework dependencies ─────────────────────────────────────────────
-# Cache pip downloads in /opt/pip-cache so the setup script can copy them
-# to the VM and install without any network downloads.
-RUN pip install \
-    --cache-dir /opt/pip-cache \
+RUN pip install --no-cache-dir \
     openai-agents \
     openai \
-    "temporalio[openai-agents]" \
-    httpx \
-    pydantic \
-    python-dotenv \
-    rich
+    "temporalio[openai-agents]"
 
 # ─── Exercise source code ─────────────────────────────────────────────────────
 COPY exercises/02-building-from-scratch /opt/exercises/02-building-from-scratch
