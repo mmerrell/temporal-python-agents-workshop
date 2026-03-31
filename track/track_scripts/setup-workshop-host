@@ -63,13 +63,31 @@ for i in $(seq 1 30); do
     sleep 3
 done
 
-# ─── code-server (pre-installed in Docker image, just configure and start) ────
-# Pull code-server binary out of the sandbox image
-docker pull ghcr.io/mmerrell/temporal-python-sandbox:latest
-docker create --name tmp-base ghcr.io/mmerrell/temporal-python-sandbox:latest
-docker cp tmp-base:/usr/bin/code-server /usr/bin/code-server
-docker cp tmp-base:/root/.local/share/code-server /root/.local/share/code-server
-docker rm tmp-base
+# ─── Pull agents image (used for code-server, pip cache, and exercises) ───────
+docker pull ghcr.io/mmerrell/temporal-python-agents-sandbox:latest
+docker create --name tmp-sandbox ghcr.io/mmerrell/temporal-python-agents-sandbox:latest
+
+# ─── code-server ──────────────────────────────────────────────────────────────
+# Install the native binary (fast), copy extension data from image (no download)
+curl -fsSL https://code-server.dev/install.sh | sh
+
+mkdir -p /root/.local/share/code-server
+docker cp tmp-sandbox:/root/.local/share/code-server /root/.local/share/
+
+cat > /root/.local/share/code-server/User/settings.json <<'EOF'
+{
+    "workbench.colorTheme": "Default Dark+",
+    "workbench.startupEditor": "none",
+    "security.workspace.trust.enabled": false,
+    "editor.fontSize": 14,
+    "editor.tabSize": 4,
+    "python.defaultInterpreterPath": "/usr/bin/python3.11",
+    "workbench.activityBar.visible": false,
+    "workbench.secondarySideBar.visible": false,
+    "workbench.statusBar.visible": true,
+    "editor.suggestOnTriggerCharacters": true
+}
+EOF
 
 cat > /etc/systemd/system/code-server.service <<'EOF'
 [Unit]
@@ -90,14 +108,31 @@ EOF
 systemctl enable code-server
 systemctl start code-server
 
-# ─── Pull exercise code from agents sandbox image ─────────────────────────────
-docker pull ghcr.io/mmerrell/temporal-python-agents-sandbox:latest
-docker create --name tmp-sandbox ghcr.io/mmerrell/temporal-python-agents-sandbox:latest
+# Wait for code-server to be ready
+echo "Waiting for code-server..."
+for i in $(seq 1 30); do
+    if curl -sfk https://localhost:8443 > /dev/null 2>&1; then
+        echo "code-server healthy."
+        break
+    fi
+    if [ "$i" -eq 30 ]; then
+        echo "ERROR: code-server failed to start on port 8443"
+        exit 1
+    fi
+    sleep 2
+done
+
+# ─── Exercise code ────────────────────────────────────────────────────────────
 docker cp tmp-sandbox:/opt/exercises /workspace/exercises
+
+# ─── Python dependencies (install from cached wheels — no network downloads) ──
+docker cp tmp-sandbox:/opt/pip-cache /opt/pip-cache
 docker rm tmp-sandbox
 
-# ─── Install Python dependencies ──────────────────────────────────────────────
-pip install --no-cache-dir \
+pip install \
+    --no-index \
+    --find-links /opt/pip-cache \
+    --ignore-installed \
     temporalio \
     "temporalio[openai-agents]" \
     openai-agents \
