@@ -1,8 +1,8 @@
 ---
-slug: exercise-build-from-scratch
-id: ""
+slug: exercise-build-the-agentic-loop
+id: ytq0mywlhapb
 type: challenge
-title: "Exercise: Build the Agentic Loop"
+title: 'Exercise: Build the Agentic Loop'
 teaser: Wire up the workflow so the agentic loop runs durably. Four TODOs to complete.
 notes:
 - type: text
@@ -42,29 +42,33 @@ notes:
     ```
 
     For `get_coordinates`, pass `tool_args["location"]`.
-    For `get_distance_km`, pass `tool_args["lat1"], tool_args["lon1"], tool_args["lat2"], tool_args["lon2"]`
-    — and wrap the dict result in `json.dumps()`.
+    For `get_distance_km`, pass four floats: lat1, lon1, lat2, lon2 — and wrap the result in `json.dumps()`.
 tabs:
-- title: Terminal 1 - Worker
+- id: 9orzlyto2dfd
+  title: Terminal 1 - Worker
   type: terminal
   hostname: workshop-host
   workdir: /workspace/exercise
-- title: Terminal 2 - Starter
+- id: tdulj4xh0jhr
+  title: Terminal 2 - Starter
   type: terminal
   hostname: workshop-host
   workdir: /workspace/exercise
-- title: VS Code
+- id: ss7vndgsbamf
+  title: VS Code
   type: service
   hostname: workshop-host
   path: ?folder=/workspace/exercise&openFile=/workspace/exercise/workflow.py
   port: 8443
-- title: Temporal UI
+- id: papnl2k1lzjv
+  title: Temporal UI
   type: service
   hostname: workshop-host
   path: /
   port: 8080
 difficulty: basic
 timelimit: 3600
+enhanced_loading: null
 ---
 
 ## Exercise: Build the Agentic Loop

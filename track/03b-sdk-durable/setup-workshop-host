@@ -1,6 +1,0 @@
-#!/bin/bash
-set -euxo pipefail
-
-# Solution already loaded from 03a — no file changes needed.
-# Workspace already has workflow.py, activities.py, run_worker.py, run_starter.py.
-echo "03b setup complete."

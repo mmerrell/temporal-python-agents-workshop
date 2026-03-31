@@ -1,7 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-# Check agent_raw.py exists and uses @function_tool
 grep -q "@function_tool" /workspace/exercise/agent_raw.py \
     || { fail-message "agent_raw.py is missing @function_tool decorators."; exit 1; }
 

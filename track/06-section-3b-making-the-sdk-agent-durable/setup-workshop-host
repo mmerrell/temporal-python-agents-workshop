@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euxo pipefail
+
+# Solution already loaded from previous challenge — no file changes needed.
+echo "03b setup complete."

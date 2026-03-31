@@ -1,7 +1,6 @@
 #!/bin/bash
 set -euxo pipefail
 
-# Load the SDK practice code — workflow.py has TODOs, everything else is complete
 cp -r /workspace/exercises/03-agent-sdks/practice/. /workspace/exercise/
 
 echo "03c setup complete."

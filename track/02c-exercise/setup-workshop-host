@@ -1,7 +1,0 @@
-#!/bin/bash
-set -euxo pipefail
-
-# Load the practice code — workflow.py has TODOs, activities are complete
-cp -r /workspace/exercises/02-building-from-scratch/practice/. /workspace/exercise/
-
-echo "02c setup complete."

@@ -1,8 +1,8 @@
 ---
-slug: adding-tools
-id: ""
+slug: section-2b-adding-tools-without-changing-the-loop
+id: vnk44giwc6gx
 type: challenge
-title: "Section 2b: Adding Tools Without Changing the Loop"
+title: 'Section 2b: Adding Tools Without Changing the Loop'
 teaser: Add geolocation tools to the agent. The loop stays identical.
 notes:
 - type: text
@@ -30,26 +30,31 @@ notes:
 
     Compare the workflow from 2a to this one — the loop is identical.
 tabs:
-- title: Terminal 1 - Worker
+- id: 1mtph8oebw0t
+  title: Terminal 1 - Worker
   type: terminal
   hostname: workshop-host
   workdir: /workspace/exercise
-- title: Terminal 2 - Starter
+- id: vsdes7xykssm
+  title: Terminal 2 - Starter
   type: terminal
   hostname: workshop-host
   workdir: /workspace/exercise
-- title: VS Code
+- id: 4jrxc5qfbyuw
+  title: VS Code
   type: service
   hostname: workshop-host
   path: ?folder=/workspace/exercise
   port: 8443
-- title: Temporal UI
+- id: gh47bzz7ya3a
+  title: Temporal UI
   type: service
   hostname: workshop-host
   path: /
   port: 8080
 difficulty: basic
 timelimit: 1800
+enhanced_loading: null
 ---
 
 ## Section 2b: Adding Tools Without Changing the Loop

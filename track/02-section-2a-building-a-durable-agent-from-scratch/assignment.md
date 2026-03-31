@@ -1,9 +1,10 @@
 ---
-slug: agentic-loop
-id: ""
+slug: section-2a-building-a-durable-agent-from-scratch
+id: ozeo1k8wjr2z
 type: challenge
-title: "Section 2: Building a Durable Agent from Scratch"
-teaser: Implement the agentic loop inside a Temporal workflow. LLM calls and tool calls are activities.
+title: 'Section 2a: Building a Durable Agent from Scratch'
+teaser: Implement the agentic loop inside a Temporal workflow. LLM calls and tool
+  calls are activities.
 notes:
 - type: text
   contents: |-
@@ -27,8 +28,7 @@ notes:
 
     **1. Non-determinism.** Temporal workflows must be deterministic — given the same
     event history, they must produce the same decisions. An LLM call is non-deterministic
-    by nature. Putting it in an activity keeps the workflow deterministic: Temporal
-    records the activity's result in the event history and replays it on failure.
+    by nature. Putting it in an activity keeps the workflow deterministic.
 
     **2. Retries.** LLM API calls can fail transiently. Activity retry policies let
     you configure exactly how to handle that — independently of your workflow logic.
@@ -49,29 +49,34 @@ notes:
     The agentic loop itself — the `while True`, the LLM call, the message accumulation
     — **does not change**. You'll see this directly in the next challenge.
 tabs:
-- title: Terminal 1 - Worker
+- id: xc6cqfzezlar
+  title: Terminal 1 - Worker
   type: terminal
   hostname: workshop-host
   workdir: /workspace/exercise
-- title: Terminal 2 - Starter
+- id: yavbh8jrbh6t
+  title: Terminal 2 - Starter
   type: terminal
   hostname: workshop-host
   workdir: /workspace/exercise
-- title: VS Code
+- id: budww5krwtsc
+  title: VS Code
   type: service
   hostname: workshop-host
-  path: ?folder=/workspace/exercise
+  path: ?folder=/workspace/exercise&openFile=/workspace/exercise/workflow.py
   port: 8443
-- title: Temporal UI
+- id: lelwxqpvfhpu
+  title: Temporal UI
   type: service
   hostname: workshop-host
   path: /
   port: 8080
 difficulty: basic
 timelimit: 2400
+enhanced_loading: null
 ---
 
-## Section 2: Building a Durable Agent from Scratch
+## Section 2a: Building a Durable Agent from Scratch
 
 The code for this section is in `/workspace/exercise/`. Open **VS Code** to explore it.
 
@@ -92,31 +97,35 @@ Open `activities.py`. Notice:
 1. **`@activity.defn`** decorates every activity
 2. `call_llm` just calls the OpenAI API — no workflow logic here
 3. `get_weather_alerts` calls the NWS API — a real external call
-4. Neither activity knows about the loop or the other activity — **loose coupling**
+4. Neither activity knows about the loop — **loose coupling**
 
 ***
 
 ### Run It
 
-Start the worker in **Terminal 1 - Worker**:
+Start the worker in **Terminal 1**:
 
 ```bash
 python run_worker.py
 ```
 
-Start a workflow in **Terminal 2 - Starter**:
+Start a workflow in **Terminal 2**:
 
 ```bash
 python run_starter.py "What are the active weather alerts in California?"
 ```
 
-Switch to the **Temporal UI** tab and find your workflow. Click into it and look at the **Event History** — every activity call is a discrete, durable event. If the worker restarted right now, Temporal would replay this history and pick up exactly where it left off without re-executing completed activities.
+Switch to the **Temporal UI** tab and find your workflow. Click into it and look at the
+**Event History** — every activity call is a discrete, durable event. If the worker
+restarted right now, Temporal would replay this history and pick up exactly where it
+left off without re-executing completed activities.
 
 ***
 
 ### Try Breaking It
 
-While a workflow is running, kill the worker with **Ctrl+C** in Terminal 1. Watch the workflow in the Temporal UI — it shows as running but blocked. Restart the worker:
+While a workflow is running, kill the worker with **Ctrl+C** in Terminal 1. Watch the
+workflow in the Temporal UI — it shows as running but blocked. Restart the worker:
 
 ```bash
 python run_worker.py

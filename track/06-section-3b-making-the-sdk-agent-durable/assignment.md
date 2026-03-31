@@ -1,9 +1,10 @@
 ---
-slug: sdk-durable
-id: ""
+slug: section-3b-making-the-sdk-agent-durable
+id: w0pt4uiy0gki
 type: challenge
-title: "Section 3b: Making the SDK Agent Durable"
-teaser: Wrap the SDK agent in a Temporal workflow. Then look at the UI — it's identical to Section 2.
+title: 'Section 3b: Making the SDK Agent Durable'
+teaser: Wrap the SDK agent in a Temporal workflow. Then look at the UI — it's identical
+  to Section 2.
 notes:
 - type: text
   contents: |-
@@ -30,26 +31,31 @@ notes:
     Temporal is doing the durability.
     You get both.
 tabs:
-- title: Terminal 1 - Worker
+- id: ib4igdysrliq
+  title: Terminal 1 - Worker
   type: terminal
   hostname: workshop-host
   workdir: /workspace/exercise
-- title: Terminal 2 - Starter
+- id: vw3obubzoxmo
+  title: Terminal 2 - Starter
   type: terminal
   hostname: workshop-host
   workdir: /workspace/exercise
-- title: VS Code
+- id: b6h0rvgkfn2k
+  title: VS Code
   type: service
   hostname: workshop-host
   path: ?folder=/workspace/exercise&openFile=/workspace/exercise/workflow.py
   port: 8443
-- title: Temporal UI
+- id: fjlkwhgxiqnu
+  title: Temporal UI
   type: service
   hostname: workshop-host
   path: /
   port: 8080
 difficulty: basic
 timelimit: 1800
+enhanced_loading: null
 ---
 
 ## Section 3b: Making the SDK Agent Durable
@@ -86,9 +92,8 @@ Run a workflow in **Terminal 2**:
 python run_starter.py "How far is it from Seattle to Portland?"
 ```
 
-Now open the **Temporal UI** and find your workflow.
-
-Look at the event history. Compare it to what you saw in Section 2.
+Now open the **Temporal UI** and find your workflow. Look at the event history.
+Compare it to what you saw in Section 2.
 
 ***
 

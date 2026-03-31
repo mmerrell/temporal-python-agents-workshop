@@ -1,8 +1,8 @@
 ---
-slug: exercise-sdk
-id: ""
+slug: exercise-make-the-sdk-agent-durable
+id: 4ztowcybsnao
 type: challenge
-title: "Exercise: Make the SDK Agent Durable"
+title: 'Exercise: Make the SDK Agent Durable'
 teaser: Wire up the Temporal workflow around the OpenAI Agents SDK. Four TODOs.
 notes:
 - type: text
@@ -38,26 +38,31 @@ notes:
     The `OpenAIAgentsPlugin` is already configured in `run_worker.py` and
     `run_starter.py` — you don't need to touch those.
 tabs:
-- title: Terminal 1 - Worker
+- id: kkherqykmaqx
+  title: Terminal 1 - Worker
   type: terminal
   hostname: workshop-host
   workdir: /workspace/exercise
-- title: Terminal 2 - Starter
+- id: x68cff5ir1zq
+  title: Terminal 2 - Starter
   type: terminal
   hostname: workshop-host
   workdir: /workspace/exercise
-- title: VS Code
+- id: b3lzwpfqfac2
+  title: VS Code
   type: service
   hostname: workshop-host
   path: ?folder=/workspace/exercise&openFile=/workspace/exercise/workflow.py
   port: 8443
-- title: Temporal UI
+- id: oofilhem1zyn
+  title: Temporal UI
   type: service
   hostname: workshop-host
   path: /
   port: 8080
 difficulty: basic
 timelimit: 3600
+enhanced_loading: null
 ---
 
 ## Exercise: Make the SDK Agent Durable

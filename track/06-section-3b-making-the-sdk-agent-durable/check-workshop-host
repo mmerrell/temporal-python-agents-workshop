@@ -13,7 +13,6 @@ if [ "$COMPLETED" -lt 1 ]; then
     exit 1
 fi
 
-# Verify workflow.py uses the Temporal OpenAI Agents integration
 grep -q "activity_as_tool" /workspace/exercise/workflow.py \
     || { fail-message "workflow.py doesn't use activity_as_tool(). Make sure you're running the durable version."; exit 1; }
 

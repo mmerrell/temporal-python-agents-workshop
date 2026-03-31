@@ -1,9 +1,10 @@
 ---
-slug: sdk-raw
-id: ""
+slug: section-3a-the-openai-agents-sdk-raw
+id: hsw2frzkkah1
 type: challenge
-title: "Section 3a: The OpenAI Agents SDK — Raw"
-teaser: Rebuild the weather agent with the OpenAI Agents SDK. Much less code, same capability.
+title: 'Section 3a: The OpenAI Agents SDK - Raw'
+teaser: Rebuild the weather agent with the OpenAI Agents SDK. Much less code, same
+  capability.
 notes:
 - type: text
   contents: |-
@@ -33,22 +34,26 @@ notes:
 
     **That changes in 3b.**
 tabs:
-- title: Terminal
+- id: xj4cdptr3e74
+  title: Terminal
   type: terminal
   hostname: workshop-host
   workdir: /workspace/exercise
-- title: VS Code
+- id: coc8quj6wmlj
+  title: VS Code
   type: service
   hostname: workshop-host
   path: ?folder=/workspace/exercise&openFile=/workspace/exercise/agent_raw.py
   port: 8443
-- title: Temporal UI
+- id: jlocgjwtl7cd
+  title: Temporal UI
   type: service
   hostname: workshop-host
   path: /
   port: 8080
 difficulty: basic
 timelimit: 1800
+enhanced_loading: null
 ---
 
 ## Section 3a: The OpenAI Agents SDK — Raw

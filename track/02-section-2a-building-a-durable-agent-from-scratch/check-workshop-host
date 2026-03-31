@@ -1,16 +1,15 @@
 #!/bin/bash
 set -euo pipefail
 
-echo "Checking for a completed WeatherAgentWorkflow with geo tools..."
+echo "Checking for a completed WeatherAgentWorkflow..."
 
-# Look for a workflow that ran the distance query (requires chaining)
 COMPLETED=$(temporal workflow list \
     --namespace default \
     --query 'WorkflowType="WeatherAgentWorkflow" AND ExecutionStatus="Completed"' \
     2>/dev/null | grep -c "WeatherAgentWorkflow" || true)
 
 if [ "$COMPLETED" -lt 1 ]; then
-    fail-message "No completed WeatherAgentWorkflow found. Run: python run_starter.py \"How far is it from San Francisco to Los Angeles?\""
+    fail-message "No completed WeatherAgentWorkflow found. Run the agent with: python run_starter.py \"What are the weather alerts in California?\""
     exit 1
 fi
 
